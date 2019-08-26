@@ -11,6 +11,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.masivian.binarytree.DTO.TreeDTO;
 import com.masivian.binarytree.modules.CreateTree;
+import com.masivian.binarytree.modules.SearchAncestor;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -28,29 +29,36 @@ public class BinaryTreeService {
     private Gson gson = new Gson();
          
     @POST
+    @Path("/createTree")
     @Consumes("application/json")
     @Produces("application/json")
     public Response createTree(String tree){
         
-        System.out.println("11111111111");
         JsonObject jsonObject = new Gson().fromJson(tree, JsonObject.class);
-        System.out.println("22222222222222");
         List<Integer> nodes = new ArrayList<>();
         JsonArray jsonNodes =  jsonObject.getAsJsonArray("nodes");
         CreateTree createTree = new CreateTree();
-        System.out.println("3333333333333333333333333333333333");
         for(int i=0; i< jsonNodes.size(); i++){
             nodes.add(jsonNodes.get(i).getAsInt());
         }
-        System.out.println("444444444444444444444444444444444444");
         TreeDTO treeDTO = createTree.createTree(nodes);
-        System.out.println("555555555555555555555555555555555");
         return Response.status(200).entity(gson.toJson(treeDTO)).build();
     }
     
-    @GET
+    @POST
+    @Path("/lowestCommonAncestor")
+    @Consumes("application/json")
     @Produces("application/json")
-    public Response lowestCommonAncestor(){
-        return Response.status(200).entity("Prueba").build();
+    public Response lowestCommonAncestor(String dataRequest){
+        
+        JsonObject jsonObject = new Gson().fromJson(dataRequest, JsonObject.class);
+        int valueA = jsonObject.get("valueA").getAsInt();
+        int valueB = jsonObject.get("valueB").getAsInt();
+        TreeDTO treeDTO = new Gson().fromJson(jsonObject.getAsJsonObject("tree"), TreeDTO.class);
+        SearchAncestor searchAncestor = new SearchAncestor();
+        int ancestor = searchAncestor.search(treeDTO.getRoot(), valueA, valueB);
+        JsonObject message = new JsonObject();
+        message.addProperty("Ancestro común más cercano: ", ancestor);
+        return Response.status(200).entity(message.toString()).build();
     }
 }
