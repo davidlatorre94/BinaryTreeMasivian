@@ -7,13 +7,7 @@ package com.masivian.binarytree.DTO;
  */
 public class TreeDTO {
     
-    private int value;
-    
     private NodeDTO root;
-    
-    public TreeDTO (int value){
-        this.root = new NodeDTO(value);
-    }
     
     public TreeDTO (NodeDTO root){
         this.root = root;
@@ -21,14 +15,6 @@ public class TreeDTO {
     
     
     //Getters and Setters.
-    public int getValue() {
-        return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
-
     public NodeDTO getRoot() {
         return root;
     }

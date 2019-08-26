@@ -18,7 +18,7 @@ public class BinaryTreeService {
     @GET
     @Produces("application/json")
     public Response prueba(){
-        return Response.status(200).entity("Pr")
+        return Response.status(200).entity("Prueba").build();
     }
             
 

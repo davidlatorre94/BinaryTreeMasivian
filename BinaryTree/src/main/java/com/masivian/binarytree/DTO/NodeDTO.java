@@ -13,6 +13,7 @@ public class NodeDTO {
     
     public NodeDTO (int value){
         this.value = value;
+        this.leftChild = null;
     }
 
     
